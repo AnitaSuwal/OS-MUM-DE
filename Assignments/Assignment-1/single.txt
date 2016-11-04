@@ -1,0 +1,14 @@
+1. In Fig. 2-2 (pg 90), three process states are shown. In theory, with three states, there could be six transition, two out of each state. 
+However, only four transitions are shown. Are there any circumstances in which either or both of the missing transitions might occur?
+
+Soln : 
+Yes, two other circumstances are :
+   - Transition from blocked to running. Suppose a process is blocked waiting for an input and CPU remains idle. And whenever an input comes, the process can go directly to running state.
+   - Transition from ready to blocked state. This transition seems to be not possible as the process in the ready state which isn't running can't do any I/O task that might block it.
+
+
+3. On all current computers, at least part of the interrupt handlers are written in assembly language. Why? 
+
+Soln :
+There are some task that occurs while handling an interrupt like saving a register. And these kind of task where access to hardware is required isn't allowed in high-level languages. Since these kind of task are crucial and requires high performance, assembly language are used.
+
