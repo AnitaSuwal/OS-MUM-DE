@@ -12,3 +12,63 @@ Yes, two other circumstances are :
 Soln :
 There are some task that occurs while handling an interrupt like saving a register. And these kind of task where access to hardware is required isn't allowed in high-level languages. Since these kind of task are crucial and requires high performance, assembly language are used.
 
+4. When an interrupt or a system call transfers control to the operating system, a kernel stack area separate from the stack of the 
+interrupted process is generally used. Why?
+
+Soln: 
+This is to preserve the state of the running program such that our system won't get crashed. It also lets the OS execute more than one process at the /same time. And by not allowing the space to user it is also blocking malicious user from accessing that space.
+
+6. in the text it was stated that the model of fig 2-11(a) was not suite to a file server using a cache in memory. why not? could each process have its own cache?
+
+Soln : 
+It might be difficult. Let's say a client process sends request to server 'A' process, to update a file. It also updates cache entry in memory. After that, client process sends request to server 'B' process. However if file is cached Server B will give same data which is older. If server B here check on every I/O to check cached copy is up to date. However, disk access is the thing caching system is trying to avoid.
+
+7. If a multithreaded process forks, a problem occurs if the child gets copies of all the parent¡¯s threads. Suppose that one of the original threads was waiting for keyboard input. Now two threads are waiting for keyboard input, one in each process. Does this problem ever occur in single-threaded processes?
+
+Soln :
+No, problem won't occur in single-threaded process. The problem would occur if the fork() can overlap with keyboard read.In single-threaded process, there is just one execution unit in the parent process, so the fork() occurs either before the read() completes or or after it completes, but the fork() can never overlap with the read(). Therefore it won't create any problem.
+
+8. In fig 2-8 (pg 98), a multithreaded web server is shown. If the only way to read from a file is the normal blocking read system call, 
+do you think user-level threads or kernel-level threads are being used for the web server?why?
+
+Soln:
+While reading web page from the disk, worker threads are blocked. If user threads are used here, this will block entire process, destroying multithreading concept. Thus it is necessary that kernal threads are used for security to block some threads without affecting others.
+
+9. In the text, we described a multithreaded web server, showing why it is better than a single-threaded server and a finite-state 
+machine server. Are there any circumstances in which a single-threaded sever might be better? give an example.
+
+Soln: 
+Yes, if server is CPU bound entirely, then we don't need multiple threads as it will just add extra complexity. 
+
+
+10. In fig 2-12 (pg 102), the register set is listed as a per-thread rather than a per-process item, why? after all, the machine has only 
+one set of registers.
+
+Soln:
+Registers has values that need to be saved while thread is stopped similar to the case of process where registers are saved. Since Multithreading is also similar to Multiprocessing, each thread requires its own register save area.
+
+11. Why would a thread ever voluntarily give up the CPU by calling thread_yield? After all, since there is no periodic clock interrupt, 
+it may never get the CPU back.
+
+Soln : 
+Threads cooperates in a process and aren't opposed to each other. if yielding is required for betterment of application, then a thread will yield. As, the developer to write both of them are same. In addition, to prevent a resource deadlock, it could be neccessary for a thread to yield itself in order for the process to continue succesfully.
+
+14. What is the biggest advantage of implementing threads in user space? what is the biggest disadvantage?
+
+Soln:
+Efficiency is the biggest advantage. No traps to the kernel are required for thread switching. The biggest disadvantage is that if one thread blocks, the entire process blocks.
+
+
+15. In fig 2-15 (pg 106) the thread creations and messages printed by the threads are interleaved at random. Is there a way to force the order 
+to be strictly thread 1 created, thread 1 prints message, thread 1 exits, thread 2 created, thread 2 prints message, thread 2 exists, 
+and so on? If so, how? If not, why not?
+
+Soln :
+Yes it is possible to do. After each call to pthread_create, the main program
+could do a pthread_join to wait until the thread just created has exited before creating the next thread.
+
+21. In a system with threads, is there one stack per thread or one stack per process when user-level threads are used? What about when 
+kernel-level threads are used? Explain
+
+Soln:
+Procedures are called by thread on own, so it should have its own stack for local variable, return address etc. This is true for both thread.
