@@ -1,0 +1,4 @@
+Q) advantage and a disadvantage of implementing threads in user space ?
+Soln:
+The advantage is that context switching between threads is faster because it does not require a trap into the kernel. 
+The disadvantage is that, if a user thread blocks in the kernel (e.g., waiting for I/O), no other threads in the process can run. 
