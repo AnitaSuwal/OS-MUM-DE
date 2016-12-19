@@ -1,0 +1,7 @@
+READ 3 ... okay
+READ 16 ... okay
+WRITE 3acc32 ... okay
+READ 10000000 ... okay
+READ 10000000 ... okay
+WRITE c0010000 ... page fault
+WRITE 1ee52ffc ... okay
