@@ -1,0 +1,93 @@
+Name : Aman Adhikari  StudentId : 985228
+
+1) What is a character special file?
+Ans :
+Character special files is a device file that provide unbuffered, direct access to the hardware device.
+
+2) What is a block special file?
+Ans :
+Block special files are device file that provide buffered access to hardware devices, and provide some abstraction from their specifics. Unlike character devices, block devices will always allow the programmer to read or write a block of any size (including single characters/bytes) and any alignment.
+
+3) What is metadata?
+Ans : 
+Metadata is the information like When the file created, when modified, what is the size, what is the permission level etc. of the file. It is also called as a files attributes.
+Following attributes are used to identfy the file:
+1. Protection 2. Password 3. Creater 4.Owner 5.Read only flag... etc.
+
+4)  What is a FAT?  What is kept there?
+Ans:
+FAT(File Allocation Table), is a file system architecture, which is used on many operating system (for supporting the compatibility), mobile, and embedded system to store blocks of files.
+ 
+5)  What is an i-node?  What is kept there?
+Ans:
+The inode is a data structure in a file system which describes a filesystem object such as a file or a directory. Each inode stores the attributes and disk block location(s) of the object's data.
+ 
+B. Hand in the following from text book:
+
+Page 325 ñ 1,   2,   3,   4,   5,   6,   7,   8
+Ans:
+1. Give five different path names for the file /etc/posswd. Hint. Think about the directory
+entries "." and
+Ans:
+You can go up and down the tree as often as you want using ëë..íí. Some of the many paths are
+/etc/passwd
+/./etc/passwd
+/././etc/passwd
+
+2. In Windows, when a user double clicks on a file listed by Windows Explorer, a program
+is run and given that fde as a parameter. List two different ways the operating
+system could know which program to run.
+Ans:
+The Windows way is to use the file extension. Each extension corresponds to a file type and to some program that handles that type. Another way is to remember which program created the file and run that program.
+
+3. In early UNIX systems, executable files (a.out files) began with a very specific magic
+number, not one chosen at random. These files began with a header, followed by the
+text and data segments. Why do you think a very specific number was chosen for executable
+files, whereas other file types had a more-or-less random magic number as
+the first word?
+Ans:
+These systems loaded the program directly in memory and began executing at word 0, which was the magic number. To avoid trying to execute the header as code, the magic number was a BRANCH instruction with a target address just above the header. In this way it was possible to read the binary file directly into the new processí address space and run it at 0, without even knowing how big the header was.
+
+
+5. Systems that support sequential files always have an operation to rewind files. Do
+systems that support random access files need this too?
+Ans:
+No. If you want to read the file again, just randomly access byte 0.
+
+
+6. In some systems it is possible to map part of a file into memory. What restrictions
+must such systems impose? How is this partial mapping implemented?
+Ans:
+The mapped portion of the file must start at a page boundary and be an integral number of pages in length. Each mapped page uses the file itself as backing store. Unmapped memory uses a scratch file or partition as backing store.
+
+7. A simple operating system only supports a single directory but allows that directory to
+have arbitrarily many files with arbitrarily long file names. Can something approximating
+a hierarchical file system be simulated? How?
+Ans:
+Use file names such as /usr/ast/file. While it looks like a hierarchical path name, it is really just a single name containing embedded slashes.
+
+
+Page  326  -  13,   17,   18,   21,   25,   26,   29
+13. How does MS-DOS implement random access to files?
+Ans:
+Answer: It finds the address of the first block in the directory entry. It then follows the chain of block pointers in the FAT until it has located the block it needs. It then remembers this block number for the next read system call.
+
+17. Free disk space can be kept track of using a free list or a bitmap. Disk addresses require D bits. For a disk with B blocks, F of which are free, state the condition under which the free list uses less space than the bitmap. For D having the value 16 bits, express your answer as a percentage of the disk space that must be free.
+Ans: 
+The bitmap requires B bits. The free list requires DF bits. The free list requires fewer bits if DF < B. Alternatively, the free list is shorter if F/B < 1/D, where F/B is the fraction of blocks free. For 16-bit disk addresses, the free list is shorter if 6 percent or less of the disk is free.
+
+18. What would happen if the bitmap or free list containing the information about free disk blocks was completely lost due to a crash? Is there any way to recover from this disaster, or is it bye-bye disk? Discuss your answers for UNIX and the FAT-16 file system separately.
+Ans: 
+It is not a serious problem at all. Repair is straightforward; it just takes time. The recovery algorithm is to make a list of all the blocks in all the files and take the complement as the new free list. In UNIX this can be done by scanning all the i-nodes. In the FAT file system, the problem cannot occur because there is no free list. But even if there were, all that would have to be done to recover it is to scan the FAT looking for free entries.
+
+21. It has been suggested that the first part of each UNIX file be kept in the same disk block as its i-node. What good would this do?
+Ans:
+ Many UNIX files are short. If the entire file fits in the same block as the inode, only one disk access would be needed to read the file, instead of two, as is presently the case. Even for longer files there would be a gain, since one fewer disk accesses would be needed.
+
+26. A certain file system uses 2-KB disk blocks. The median file size is 1 KB. If all files were exactly 1 KB, what fraction of the disk space would be wasted? Do you think the wastage for a real file system will be higher than this number or lower than it? Explain your answer.
+Ans: 
+If all files were 1 KB, then each 2-KB block would contain one file and 1 KB of wasted space. Trying to put two files in a block is not allowed because the unit used to keep track of data is the block, not the semiblock. This leads to 50 percent wasted space. In practice, every file system has large files as well as many small ones, and these files use the disk much more efficiently. For example, a 32,769-byte file would use 17 disk blocks for storage, given a space efficiency of 32768/34816, which is about 94 percent.
+
+29. A UNIX file system has I-KB blocks and 4-byte disk addresses. What is the maximum file size if i-nodes contain 10 direct entries, and one single, double, and triple indirect entry each?
+Ans: 
+The i-node holds 10 pointers. The single indirect block holds 256 pointers. The double indirect block is good for 2562 pointers. The triple indirect block is good for 2563 pointers. Adding these up, we get a maximum file size of 16,843,018 blocks, which is about 16.06 GB.

@@ -1,0 +1,51 @@
+Name : Aman Adhikari  StudentId : 985228
+
+A. Hand in the following from text book: 
+ 
+Pages 606-608: 2, 8, 13, 20, 22, 25, 26, 28, 29, 32, 38.
+
+2. What happens if three CPUs in a multiprocessor attempt to access exactly the same word of memory at exactly the same instant?
+- Only one of the CPUs will access the word. Afterwards is relinquishes the bus and others can access it.
+
+8. Multicore CPUs are beginning to appear in conventional desktop machines and laptop computers. Desktops with tens or hundreds of cores are not far off. One possible way to harness this power is to parallelize standard desktop applications such as the word processor or the web browser. Another possible way to harness the power is to parallelize the services offered by the operating system -- e.g., TCP processing -- and commonly-used library services -- e.g., secure http library functions). Which approach appears the most promising? Why?
+- Since the upper layer functions like word & web browsers are based on the lower layer applications like TCP processing, it’s better to harness the power in this layer.
+
+11. Suppose that the TSL instruction was not available for synchronizing a multiprocessor. Instead, another instruction, SWP, was provided that atomically swapped the contents of a register with a word in memory. Could that be used to provide multiprocessor syn- chronization? If so, how could it be used? If not, why does it not work?
+- It is just as good as TSL. It is used by preloading a 1 into the register to be used. Then that register and the memory word are atomically swapped. After the instruction, the memory word is locked (i.e., has a value of 1). Its previous value is now contained in the register. If it was previously locked, the word has not been changed and the caller must loop. If it was previously unlocked, it is now locked..
+
+
+13. In this problem you are to compute how much of a bus load a spin lock puts on the bus. Imagine that each instruction executed by a CPU takes 5 nsec. After an instruction has completed, any bus cycles needed, for example, for TSL are carried out. Each bus cycle takes an additional 10 nsec above and beyond the instruction execution time. If a process is attempting to enter a critical region using a TSL loop, what fraction of the bus bandwidth does it consume? Assume that normal caching is working so that fetching an instruction inside the loop consumes no bus cycles.
+- 
+TSL instruction = 5 nsec. 
+bus cycle = 10 nsec
+JMP back to the TSL instruction = 5 nsec. 
+———
+Total = 20 nsec.
+1 bus cycle is requested occupying 10 nsec. 
+Thus, loop consumes 50% of the bus.
+
+20. When transferring data from RAM to a network interface, pinning a page can be used, but suppose that system calls to pin and unpin pages each take 1 μsec. Copying takes 5 bytes/nsec using DMA but 20 nsec per byte using programmed I/O. How big does a packet have to be before pinning the page and using DMA is worth it?
+- 
+Moving k bytes by programmed I/O = 20k nsec.
+The time for DMA is 2000 + 5k nsec.
+Thus, solving for k we get the breakeven point at 133 bytes.
+
+
+22. In a DSM system, when a page fault occurs, the needed page has to be located. List two possible ways to find the page.
+- We can make a broadcast request in broadcast network. Or a centralized database of who has which page could be maintained.
+
+25. Why is there a limit to cable length on an Ethernet network?
+- For collision detection between packets.
+
+26. In Fig. 8-27, the third and fourth layers are labeled Middleware and Application on all four machines. In what sense are they all the same across platforms, and in what sense are they different?
+- Since Middleware run in different systems, their code base id different. But all of them provide common API to the application layers.
+28. DNS names have a hierarchical structure, such as sales.general-widget.com. or cs.uni.edu One way to maintain the DNS database would be as one centralized database, but that is not done because it would get too many requests/sec. Propose a way that the DNS database could be maintained in practice.
+- Hierarchical lookup between parts of domain can be a good solutions. Also we can have different servers for different top level domains (.edu, .com. org)
+29. In the discussion of how URLs are processed by a browser, it was stated that connections are made to port 80. Why?
+- This is agreed upon standard. 80 was an arbitrary choice, but important thing was that it has been agreed upon that Web servers will listen to a common port.
+
+32. When session semantics are used, it is always true that changes to a file are immediately visible to the process making the change and never visible to processes on other machines. However, it is an open question as to whether or not they should be immediately visible to other processes on the same machine. Give an argument each way.
+- 
+
+38. One of the simplest ways to implement a publish/subscribe system is via a centralized broker that receives published articles and distributes them to the appropriate sub- scribers. Write a multithreaded application that emulates a broker-based pub/sub sys- tem. Publisher and subscriber threads may communicate with the broker via (shared) memory. Each message should start with a length field followed by that many charac- ters. Publishers send messages to the broker where the first line of the message con- tains a hierarchical subject line separated by dots followed by one or more lines that comprise the published article. Subscribers send a message to the broker with a single line containing a hierarchical interest line separated by dots expressing the articles they are interested in. The interest line may contain the wildcard symbol ‘‘*’’. The broker must respond by sending all (past) articles that match the subscriber’s interest. Articles in the message are separated by the line ‘‘BEGIN NEW ARTICLE.’’ The subscriber should print each message it receives along with its subscriber identity (i.e., its interest line). The subscriber should continue to receive any new articles that are posted and match its interests. Publisher and subscriber threads can be created dynamically from the terminal by typing ‘‘P’’ or ‘‘S’’ (for publisher or subscriber) followed by the hierarchical subject/interest line. Publishers will then prompt for the article. Typing a single line containing ‘‘.’’ will signal the end of the article. (This project can also be implemented using processes communicating via TCP.)
+- 
